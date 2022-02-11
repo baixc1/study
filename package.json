@@ -18,5 +18,8 @@
     "@babel/types": "^7.16.8",
     "acorn": "^8.7.0",
     "source-map": "^0.7.3"
+  },
+  "devDependencies": {
+    "babel-plugin-tester": "^10.1.0"
   }
 }
