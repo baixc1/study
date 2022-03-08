@@ -61,7 +61,7 @@
 - cli
   - 调用 core 包
 
-## parser 篇
+### parser 篇
 
 - 关系
   - estree 标准 -> acorn -> babel parser
@@ -132,5 +132,189 @@ module.exports = {
 // 调用
 const ast = parser.parse(sourceCode, {
   plugins: ["literal", "guangKeyword"],
+});
+```
+
+### traverse 篇
+
+- 目的
+  - 遍历 AST，支持 visitor 的调用，在 visitor 里实现对 AST 的增删改
+  - 实现简易的 traverse api
+
+```javascript
+// 不含path
+traverse(ast, {
+  Identifier(node) {
+    node.name = "b";
+  },
+});
+```
+
+- 思路
+  - 树的深度优先遍历（关联父子节点关系）
+  - 可遍历 ast 的属性集合
+
+```javascript
+// 可遍历 ast 的属性集合
+const astDefinationsMap = new Map();
+
+astDefinationsMap.set("Program", {
+  visitor: ["body"],
+});
+astDefinationsMap.set("VariableDeclaration", {
+  visitor: ["declarations"],
+});
+astDefinationsMap.set("VariableDeclarator", {
+  visitor: ["id", "init"],
+});
+astDefinationsMap.set("Identifier", {});
+astDefinationsMap.set("NumericLiteral", {});
+astDefinationsMap.set("FunctionDeclaration", {
+  visitor: ["id", "params", "body"],
+});
+astDefinationsMap.set("BlockStatement", {
+  visitor: ["body"],
+});
+astDefinationsMap.set("ReturnStatement", {
+  visitor: ["argument"],
+});
+astDefinationsMap.set("BinaryExpression", {
+  visitor: ["left", "right"],
+});
+astDefinationsMap.set("ExpressionStatement", {
+  visitor: ["expression"],
+});
+astDefinationsMap.set("CallExpression", {
+  visitor: ["callee", "arguments"],
+});
+```
+
+- 实现 traverse （递归遍历）
+
+```javascript
+function traverse(node, visitors) {
+  const defination = astDefinationsMap.get(node.type);
+
+  if (defination.visitor) {
+    defination.visitor.forEach((key) => {
+      const prop = node[key];
+      if (Array.isArray(prop)) {
+        // 如果该属性是数组
+        prop.forEach((childNode) => {
+          traverse(childNode, visitors);
+        });
+      } else {
+        traverse(prop, visitors);
+      }
+    });
+  }
+}
+```
+
+- 实现 visitor
+  - visitor 支持 enter 和 exit 阶段
+
+```javascript
+function traverse(node, visitors) {
+  // 可遍历 ast 集合
+  const defination = astDefinationsMap.get(node.type);
+
+  // 自定义 visitor 中，对应的处理
+  let visitorFuncs = visitors[node.type] || {};
+
+  // 默认未指定阶段（enter 和 exit），则为 enter 阶段调用
+  if (typeof visitorFuncs === "function") {
+    visitorFuncs = {
+      enter: visitorFuncs,
+    };
+  }
+
+  // 进入节点调用
+  visitorFuncs.enter && visitorFuncs.enter(node);
+
+  if (defination.visitor) {
+    // 遍历当前 ast 的可遍历属性
+    defination.visitor.forEach((key) => {
+      const prop = node[key];
+      // 递归遍历
+      if (Array.isArray(prop)) {
+        // 如果该属性是数组
+        prop.forEach((childNode) => {
+          traverse(childNode, visitors);
+        });
+      } else {
+        traverse(prop, visitors);
+      }
+    });
+  }
+
+  // 遍历节点和子节点后调用
+  visitorFuncs.exit && visitorFuncs.exit(node);
+}
+```
+
+- enter 和 exit 的区别（enter -> traverse -> exit）
+  - enter 阶段修改的节点，可遍历到
+  - 可使用 path.skip 跳过遍历
+
+### traverse --- path 篇
+
+- path 作用
+
+  - 记录遍历路径
+  - 增删改 ast
+
+- path 类
+
+```javascript
+class NodePath {
+  constructor(node, parent, parentPath, key, listKey) {
+    this.node = node; // 当前节点
+    this.parent = parent; // 父节点
+    this.parentPath = parentPath; // 父节点的path
+    this.key = key;
+    this.listKey = listKey;
+
+    // is函数写入
+    Object.keys(types).forEach((key) => {
+      if (key.startsWith("is")) {
+        this[key] = types[key].bind(this, node);
+      }
+    });
+  }
+
+  // scope属性
+  get scope() {}
+
+  // 增删改...
+  replaceWith() {}
+}
+```
+
+- traverse 中传递 path
+
+```javascript
+function traverse(node, visitors, parent, parentPath) {
+  // ...
+  const path = new NodePath(node, parent, parentPath);
+
+  // enter 和 exit 中传入 path
+  enter(path);
+
+  // 属性和子节点递归中传递 path
+  traverse(childNode, visitors, node, path);
+  // ...
+}
+```
+
+- visitor 中使用 path
+
+```javascript
+traverse(ast, {
+  Identifier: {
+    exit(path) {
+      // ...
+    },
+  },
 });
 ```
