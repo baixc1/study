@@ -272,8 +272,8 @@ class NodePath {
     this.node = node; // 当前节点
     this.parent = parent; // 父节点
     this.parentPath = parentPath; // 父节点的path
-    this.key = key;
-    this.listKey = listKey;
+    this.key = key; // 属性名
+    this.listKey = listKey; // 属性下标
 
     // is函数写入
     Object.keys(types).forEach((key) => {
@@ -318,3 +318,57 @@ traverse(ast, {
   },
 });
 ```
+
+- path.replaceWith
+
+```javascript
+replaceWith(node) {
+  // 属性是数组
+  if (this.listKey != undefined) {
+    this.parent[this.key].splice(this.listKey, 1, node);
+  } else {
+    this.parent[this.key] = node
+  }
+}
+```
+
+- path.findParent
+  - 顺着 path 链向上查找 AST
+
+```javascript
+findParent(callback) {
+  let curPath = this.parentPath;
+  while (curPath && !callback(curPath)) {
+    curPath = curPath.parentPath;
+  }
+  return curPath;
+}
+```
+
+- path.traverse
+  - 遍历子节点，当前节点不执行 visitor 中的方法（不遍历当前节点）
+
+```javascript
+traverse(visitors) {
+  const traverse = require("../index");
+  const defination = types.visitorKeys.get(this.node.type);
+
+  if (defination.visitor) {
+    defination.visitor.forEach((key) => {
+      const prop = this.node[key];
+      if (Array.isArray(prop)) {
+        // 如果该属性是数组
+        prop.forEach((childNode, index) => {
+          // this 为 path
+          traverse(childNode, visitors, this.node, this);
+        });
+      } else {
+        traverse(prop, visitors, this.node, this);
+      }
+    });
+  }
+}
+```
+
+- path.skip
+  - 标记节点，遍历时跳过该节点的子节点遍历
