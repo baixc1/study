@@ -91,4 +91,90 @@ var threeSum = function (nums) {
   }
   return ret;
 };
-console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+
+// console.log("abc".split().reverse().join(""));
+
+// 左右对称
+function isPalindrome(str) {
+  const len = str.length;
+  for (let i = 0; i < len / 2; i++) {
+    if (str[i] !== str[len - 1 - i]) {
+      return false;
+    }
+  }
+  return true;
+}
+// console.log(isPalindrome("ababa"));
+// console.log(isPalindrome("abb"));
+
+/**
+ * 680. 验证回文字符串 Ⅱ :给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。
+ */
+// 实现：双指针（对撞指针）往中遍历，不对称时(i,j)，判断(i+1,j)或(i,j-1)是否是回文
+var validPalindrome = function (s) {
+  const len = s.length;
+  let l = 0;
+  let r = len - 1;
+  // 对称部分
+  while (l < r && s[l] === s[r]) {
+    l++;
+    r--;
+  }
+  // 判断(l+1,r)或(l,r-1)是否是回文
+  if (isPalindrome(l + 1, r) || isPalindrome(l, r - 1)) {
+    return true;
+  }
+  return false;
+
+  // 判断字符串s在下表[i,j]间是否是回文
+  function isPalindrome(i, j) {
+    while (i < j) {
+      if (s[i] !== s[j]) return false;
+      i++;
+      j--;
+    }
+    return true;
+  }
+};
+
+/**
+ * leetcode 211 
+ * 请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。
+实现词典类 WordDictionary ：
+WordDictionary() 初始化词典对象
+void addWord(word) 将 word 添加到数据结构中，之后可以对它进行匹配
+bool search(word) 如果数据结构中存在字符串与 word 匹配，则返回 true ；否则，返回  false 。word 中可能包含一些 '.' ，每个 . 都可以表示任何一个字母。
+ */
+// 使用对象记录，key为词长度，值为添加词的数组。
+// search时，先判断长度是否满足，再判断是否有正则(.)，最后遍历数组用正则判断
+var WordDictionary = function () {
+  this.words = {};
+};
+
+/**
+ * @param {string} word
+ * @return {void}
+ */
+WordDictionary.prototype.addWord = function (word) {
+  const len = word.length;
+  if (!this.words[len]) {
+    this.words[len] = [];
+  }
+  this.words[len].push(word);
+};
+
+/**
+ * @param {string} word
+ * @return {boolean}
+ */
+WordDictionary.prototype.search = function (word) {
+  const len = word.length;
+  const ws = this.words[len];
+  // 长度判断
+  if (!ws) return false;
+  // 是否有点
+  if (word.indexOf(".") === -1) return ws.includes(word);
+  // 遍历ws，正则判断
+  const reg = new RegExp(word);
+  return ws.some((w) => reg.test(w));
+};
