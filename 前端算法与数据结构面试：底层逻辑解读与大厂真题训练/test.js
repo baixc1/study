@@ -178,3 +178,24 @@ WordDictionary.prototype.search = function (word) {
   const reg = new RegExp(word);
   return ws.some((w) => reg.test(w));
 };
+/**
+ * leetcode 8. 字符串转换整数 (atoi)，有点类似 parseInt
+ */
+var myAtoi = function (s) {
+  // 正则匹配：开始可能的空格+可能正负号+数字串+其他，() 为捕获组
+  const reg = /^\s*([\+-]?[\d]+).*/;
+  let res = reg.exec(s);
+  // console.log(reg.exec(s), s.match(reg));
+  if (!res) {
+    return 0;
+  }
+  res = +res[1];
+  // 范围判断(有符号)
+  const max = Math.pow(2, 31) - 1;
+  const min = -max - 1;
+  if (res > max) return max;
+  if (res < min) return min;
+  return res;
+};
+
+myAtoi("-91283472332");
