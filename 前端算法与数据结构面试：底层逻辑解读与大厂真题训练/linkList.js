@@ -118,7 +118,7 @@ var deleteDuplicates = function (head) {
   }
   return newHead.next;
 };
-console.log(deleteDuplicates(generateLinkList([1, 1, 1, 2, 2, 3, 4, 5])));
+// console.log(deleteDuplicates(generateLinkList([1, 1, 1, 2, 2, 3, 4, 5])));
 
 /**
  * leetcode 19. 删除链表的倒数第 N 个结点
@@ -149,9 +149,44 @@ var removeNthFromEnd = function (head, n) {
   // 返回
   return dummy.next;
 };
-console.log(
-  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 1)),
-  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 3)),
-  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 5)),
-  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 8))
-);
+// console.log(
+//   generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 1)),
+//   generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 3)),
+//   generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 5)),
+//   generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 8))
+// );
+
+/**
+ * 206. 反转链表
+ */
+// 递归
+var reverseList = function (head) {
+  // 递归终止条件（返回尾节点）
+  if (!head || !head.next) return head;
+  // 递归函数
+  const newHead = reverseList(head.next);
+  debugger;
+  // 从后往前处理链表(根据head处理head.next节点)
+  head.next.next = head;
+  head.next = null; // 处理头节点，避免遍历输出时死循环
+  // 返回头节点
+  return newHead;
+};
+
+// 循环 使用变量记录节点信息（前驱 当前 后继节点），直接遍历反转
+// 前驱节点 和 当前节点 指针反转，后继节点记录下次遍历位置
+var reverseList2 = function (head) {
+  let prev = null; // 前驱节点（end -> ... -> head -> null)
+  let cur = head; // 当前节点
+  while (cur) {
+    const next = cur.next; // 后继节点
+    // 指针反转
+    cur.next = prev;
+    // 双指针后移
+    prev = cur;
+    cur = next;
+  }
+  return prev;
+};
+console.log(generateListByLink(reverseList2(generateLinkList([1, 2, 3, 4]))));
+console.log(generateListByLink(reverseList(generateLinkList([1, 2, 3, 4]))));
