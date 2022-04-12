@@ -165,7 +165,6 @@ var reverseList = function (head) {
   if (!head || !head.next) return head;
   // 递归函数
   const newHead = reverseList(head.next);
-  debugger;
   // 从后往前处理链表(根据head处理head.next节点)
   head.next.next = head;
   head.next = null; // 处理头节点，避免遍历输出时死循环
@@ -188,5 +187,69 @@ var reverseList2 = function (head) {
   }
   return prev;
 };
-console.log(generateListByLink(reverseList2(generateLinkList([1, 2, 3, 4]))));
-console.log(generateListByLink(reverseList(generateLinkList([1, 2, 3, 4]))));
+// console.log(generateListByLink(reverseList2(generateLinkList([1, 2, 3, 4]))));
+// console.log(generateListByLink(reverseList(generateLinkList([1, 2, 3, 4]))));
+
+/**
+ * 92. 反转链表 II
+ */
+// 循环
+var reverseBetween = function (head, m, n) {
+  // dummy 节点
+  const dummy = new ListNode(0, head);
+  let p = dummy;
+  // 链表 0 - m-2 遍历
+  for (let i = 0; i < m - 1; i++) {
+    p = p.next;
+  }
+
+  const leftHead = p; // m-1
+  const start = leftHead.next; // m
+  let prev = start; // 前驱节点 m
+  let cur = prev.next; // 当前节点, m + 1
+
+  // m+1 -> n 节点遍历，反转
+  for (let i = m; i < n; i++) {
+    const next = cur.next; // 后继节点
+    cur.next = prev;
+    prev = cur;
+    cur = next;
+  }
+  // 处理 m-1 和 m 节点赋值
+  leftHead.next = prev;
+  start.next = cur;
+  return dummy.next;
+};
+// 递归
+var reverseBetween2 = function (head, m, n) {
+  let last; // n+1 节点
+  // 走到需要反转的节点， 反转（m-1 节点）
+  // 终止条件
+  if (m === 1) {
+    return reverse(head, n);
+  }
+  // 链表遍历(m-1节点 -> n节点, 穿针引线)
+  // 递归函数
+  const newHead = reverseBetween2(head.next, m - 1, n - 1); // n节点
+  head.next = newHead;
+  return head;
+
+  // 反转 count 个节点（m - n 反转），并返回 m
+  function reverse(head, count) {
+    // 终止条件
+    if (count === 1) {
+      last = head.next; // n+1 节点
+      return head;
+    }
+    // 递归函数
+    let cur = reverse(head.next, count - 1);
+    // 后续遍历, 从最后往前翻转.
+    head.next.next = head;
+    head.next = last; // n+1 <- m <- m+1 <- ... <- n
+    return cur;
+  }
+};
+console.log(
+  generateListByLink(reverseBetween(generateLinkList([1, 2, 3, 4, 5]), 2, 4)),
+  generateListByLink(reverseBetween2(generateLinkList([1, 2, 3, 4, 5]), 2, 4))
+);
