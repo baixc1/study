@@ -19,6 +19,16 @@ function generateLinkList(list) {
   return head;
 }
 
+// 链表转化为数组
+function generateListByLink(link) {
+  const list = [];
+  while (link) {
+    list.push(link.val);
+    link = link.next;
+  }
+  return list;
+}
+
 /**
  * leetcode 21. 合并两个有序链表
  */
@@ -109,3 +119,39 @@ var deleteDuplicates = function (head) {
   return newHead.next;
 };
 console.log(deleteDuplicates(generateLinkList([1, 1, 1, 2, 2, 3, 4, 5])));
+
+/**
+ * leetcode 19. 删除链表的倒数第 N 个结点
+ * 思路：快慢指针（快指针移动 N 步后，间隔 N。然后快慢指针同时移动，快指针移动到null时，慢指针为倒数第 N 个节点）
+ */
+var removeNthFromEnd = function (head, n) {
+  // dummy 头节点
+  const dummy = new ListNode(undefined, head);
+  // 快慢指针
+  let fast = dummy;
+  let slow = dummy;
+  // 快指针移动 n 步
+  for (let i = 0; i < n; i++) {
+    if (fast.next) {
+      fast = fast.next;
+    } else {
+      // 异常处理
+      return head;
+    }
+  }
+  // 快慢指针遍历链表
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+  // 删除
+  slow.next = slow.next.next;
+  // 返回
+  return dummy.next;
+};
+console.log(
+  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 1)),
+  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 3)),
+  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 5)),
+  generateListByLink(removeNthFromEnd(generateLinkList([1, 2, 3, 4, 5]), 8))
+);
