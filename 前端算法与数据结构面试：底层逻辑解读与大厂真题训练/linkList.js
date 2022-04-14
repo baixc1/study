@@ -249,7 +249,90 @@ var reverseBetween2 = function (head, m, n) {
     return cur;
   }
 };
-console.log(
-  generateListByLink(reverseBetween(generateLinkList([1, 2, 3, 4, 5]), 2, 4)),
-  generateListByLink(reverseBetween2(generateLinkList([1, 2, 3, 4, 5]), 2, 4))
-);
+// console.log(
+//   generateListByLink(reverseBetween(generateLinkList([1, 2, 3, 4, 5]), 2, 4)),
+//   generateListByLink(reverseBetween2(generateLinkList([1, 2, 3, 4, 5]), 2, 4))
+// );
+
+/**
+ * 环形链表
+ * 141. 环形链表
+ */
+// 循环
+var hasCycle = function (head) {
+  while (head) {
+    if (head.flag) {
+      return true;
+    } else {
+      head.flag = true; // 标记已遍历节点
+      head = head.next;
+    }
+  }
+  return false;
+};
+
+// 递归
+var hasCycle2 = function (head) {
+  if (!head) return false;
+  if (head.flag) return true;
+  head.flag = true;
+  return hasCycle(head.next);
+};
+
+/**
+ * 142. 环形链表 II
+ */
+var detectCycle = function (head) {
+  while (head) {
+    if (head.flag) {
+      return head;
+    } else {
+      head.flag = true;
+      head = head.next;
+    }
+  }
+  return null;
+};
+
+// 递归
+var detectCycle2 = function (head) {
+  if (!head) return null;
+  if (head.flag) return head;
+  head.flag = true;
+  return detectCycle2(head.next);
+};
+
+// 哈希表
+var detectCycle3 = function (head) {
+  const set = new Set();
+  while (head) {
+    if (set.has(head)) {
+      return head;
+    } else {
+      set.add(head);
+      head = head.next;
+    }
+  }
+  return null;
+};
+
+//  快慢指针实现：slow移动 t，fast 移动 2t, 环长 s.相遇时：2t - t = ns => t = ns (环外部分 a, s = b + c, t = a + b) => a = ns - b = (n-1)s + c => ptr 慢指针与  slow 慢指针 在入环点相遇
+var detectCycle4 = function (head) {
+  let fast = head;
+  let slow = head;
+  while (fast && fast.next) {
+    fast = fast.next.next;
+    slow = slow.next;
+    // slow 和 fast相遇
+    if (fast === slow) {
+      let cur = head;
+      while (cur !== slow) {
+        // slow 和 cur相遇
+        cur = cur.next;
+        slow = slow.next;
+      }
+      return cur;
+    }
+  }
+  return null;
+};
