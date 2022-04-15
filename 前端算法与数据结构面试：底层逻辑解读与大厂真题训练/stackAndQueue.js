@@ -92,3 +92,56 @@ MinStack.prototype.top = function () {
 MinStack.prototype.getMin = function () {
   return this.minStack[this.minStack.length - 1];
 };
+
+/**
+ * Initialize your data structure here.
+ */
+var MyQueue = function () {
+  this.inArr = [];
+  this.outArr = [];
+};
+
+/**
+ * Push element x to the back of queue.
+ * @param {number} x
+ * @return {void}
+ */
+MyQueue.prototype.push = function (x) {
+  this.inArr.push(x);
+};
+
+/**
+ * Removes the element from in front of queue and returns that element.
+ * @return {number}
+ */
+MyQueue.prototype.pop = function () {
+  if (!this.outArr.length) {
+    this.in2out();
+  }
+  return this.outArr.pop();
+};
+
+/**
+ * Get the front element.
+ * @return {number}
+ */
+MyQueue.prototype.peek = function () {
+  if (!this.outArr.length) {
+    this.in2out();
+  }
+  return this.outArr[this.outArr.length - 1];
+};
+
+/**
+ * Returns whether the queue is empty.
+ * @return {boolean}
+ */
+MyQueue.prototype.empty = function () {
+  return !this.inArr.length && !this.outArr.length;
+};
+
+MyQueue.prototype.in2out = function () {
+  while (this.inArr.length) {
+    this.outArr.push(this.inArr.pop());
+  }
+};
