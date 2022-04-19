@@ -1,0 +1,44 @@
+### react 和 vue 对比
+
+- vue 的更新是原子级别（es5 的 Object.defineproperty 或 es6 的 Proxy），react 是组件级别
+- vue 是渐进式框架
+  - 核心：声明式渲染（视图模版引擎）+ 组件系统
+  - 扩展：客户端路由（vue-router）+ 状态管理（vuex）+ 打包工具
+- react 主张函数式编程
+- 编写语法
+  - vue 推荐 webpack+vue-loader 的单文件组件格式（关注点分离）（模版语法）
+  - react 使用 jsx
+- 构建工具
+  - vue-cli(vue create xx)（生成项目时可选择功能模块）
+  - create-react-app（生成项目时无法配置）
+- 数据绑定
+  - vue
+    - 双向数据绑定的 mvvm 框架（v-model）(es5 的 Object.defineproperty 或 es6 的 Proxy)
+    - 使用数据劫持，发布-订阅模式（数据查询和修改时，可重写该操作）
+  - react
+    - 单向数据流
+    - 通过 setState（它是异步的） 间接修改 state
+- diff 算法
+  - vue
+    - 对比虚拟 dom 树，渲染差异
+    - 通过发布-订阅模式，调用函数更新
+  - react（同级比较节点）
+    - 节点变化，直接创建
+    - 属性变化，更新
+    - 使用 key 优化列表性能
+- 指令
+  - vue: v-model, v-if, v-for...
+  - react: 使用 jsx 函数式编程
+- 性能优化
+  - vue
+    - 有依赖追踪系统，组件可精确更新（watcher）
+    - watcher 多时影响性能
+  - react
+    - shouldComponentUpdate 控制是否更新
+    - React.PureComponent（自带 shouldComponentUpdate，浅比较）（内存相同时，无法监听值的改变）
+- 原生渲染
+  - vue: weex 跨平台框架，一套代码，封装差异，简化开发
+  - react: react-native，多套代码，同一套语言框架，对平台抽象
+- ssr
+  - vue: Nuxt.js
+  - vue: Next.js

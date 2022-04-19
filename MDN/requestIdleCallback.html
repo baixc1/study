@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 浏览器执行线程空闲时间调用 myWork，超过 2000ms 后立即必须执行
+    requestIdleCallback(myWork, { timeout: 2000 });
+    const tasks = new Array(1000).fill(1)
+
+    function myWork(deadline) {
+      console.log(deadline, deadline.timeRemaining())
+      // 如果有剩余时间，或者任务已经超时，并且存在任务就需要执行
+      while (
+        (deadline.timeRemaining() > 0 || deadline.didTimeout) &&
+        tasks.length > 0
+      ) {
+        tasks.pop()
+        // doWorkIfNeeded();
+        console.log(11)
+      }
+      // 当前存在任务，再次调用 requestIdleCallback，会在空闲时间执行 myWork
+      if (tasks.length > 0) {
+        requestIdleCallback(myWork, { timeout: 2000 });
+      }
+    }
+
+  </script>
+</body>
+
+</html>
