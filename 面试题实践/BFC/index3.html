@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .blue,
+      .red-inner {
+        height: 50px;
+        margin: 10px 0;
+        background: red;
+      }
+
+      .blue {
+        background: blue;
+      }
+
+      .red-outer {
+        overflow: hidden;
+        background: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blue"></div>
+    <div class="red-outer">
+      <div class="red-inner">red inner</div>
+    </div>
+    <div>外边距塌陷</div>
+    <div class="blue"></div>
+    <div class="red-inner">red inner</div>
+  </body>
+</html>

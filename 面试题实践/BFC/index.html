@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    section {
+      height: 150px;
+    }
+
+    .box {
+      background-color: rgb(224, 206, 247);
+      border: 5px solid rebeccapurple;
+    }
+
+    /* 匹配所有带有style属性的类 */
+    .box[style] {
+      background-color: aliceblue;
+      border: 5px solid steelblue;
+    }
+
+    .float {
+      float: left;
+      width: 200px;
+      height: 100px;
+      background-color: rgba(255, 255, 0, 0.5);
+      border: 1px solid black;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <div class="box">
+      <div class="float">I am a floated box!</div>
+      <p>I am content inside the container.</p>
+    </div>
+  </section>
+  <section>
+    <div class="box" style="overflow: auto">
+      <div class="float">I am a floated box!</div>
+      <p>I am content inside the <code>overflow:auto</code> container.</p>
+    </div>
+  </section>
+  <section>
+    <div class="box" style="display: flex">
+      <div class="float">I am a floated box!</div>
+      <p>I am content inside the <code>display:flow-root</code> container.</p>
+    </div>
+  </section>
+  <section>
+    <div class="box" style="float: left">
+      <div class="float">I am a floated box!</div>
+      <p>I am content inside the <code>float: left</code> container.</p>
+    </div>
+  </section>
+  <section>
+    <div class="box" style="position: absolute">
+      <div class="float">I am a floated box!</div>
+      <p>
+        I am content inside the <code>position: absolute</code> container.
+      </p>
+    </div>
+  </section>
+  <script>
+      // 生成BFC方法：
+      // overflow: auto（非visible）（非默认）
+      // display: inline-block, flex(非block)（非默认）
+      // float：（非默认）
+      // 定位：（非默认）
+      // ...
+
+      // 块格式化上下文对 浮动定位 与 清除浮动  和 外边距折叠 都很重要
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style scoped>
+  body {
+    color: red;
+    border-bottom: yellow;
+    background-color: blue;
+  }
+
+  .header {
+    color: var(--theme-color);
+    border-bottom: 1px solid var(--theme-boder-color);
+    background-color: var(--theme-bg);
+  }
+</style>
+<script>
+  const darkTheme = "rgb(51, 50, 50)";
+  const lightTheme = "#fff";
+  const lightBorderTheme = "#d6d6d6";
+
+  // 获取对应的主题色值
+  const getThemeMap = (isLight) => {
+    return {
+      "theme-bg": isLight ? lightTheme : darkTheme,
+      "theme-color": isLight ? darkTheme : lightTheme,
+      "theme-boder-color": isLight ? lightBorderTheme : lightTheme,
+    };
+  };
+
+  // 设置主题色值
+  const setTheme = (isLight = true) => {
+    const themeMap = getThemeMap(isLight);
+    const body = document.body;
+    /* 实现方式一 */
+    Object.keys(themeMap).forEach((key) => {
+      body.style.setProperty(`--${key}`, themeMap[key]);
+    });
+
+  };
+
+</script>
+</head>
+
+<body>22
+  <div class="header">111</div>33
+</body>
+
+</html>
