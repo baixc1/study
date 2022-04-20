@@ -42,3 +42,10 @@
 - ssr
   - vue: Nuxt.js
   - vue: Next.js
+- 生命周期
+  - vue
+    - beforeCreate, created, beforeMount, mounted, beforeUpdate, updated, beforeDestory, destoryed
+  - react
+- 状态管理
+  - vuex
+  - redux
