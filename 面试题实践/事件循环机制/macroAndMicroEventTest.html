@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>event performance 查看</title>
+  <script>
+    function handle() {
+      console.log("1");
+      setTimeout(function f1() {
+        console.log("2");
+        new Promise(function f2(resolve) {
+          console.log("4");
+          resolve();
+        }).then(function f3() {
+          console.log("5");
+        });
+      });
+      new Promise(function f4(resolve) {
+        console.log("7");
+        resolve();
+      }).then(function f5() {
+        console.log("8");
+      });
+
+      setTimeout(function f6() {
+        console.log("9");
+        new Promise(function f7(resolve) {
+          console.log("11");
+          resolve();
+        }).then(function f8() {
+          console.log("12");
+        });
+      });
+      requestIdleCallback(() => {
+        console.log(
+          'requestIdleCallback'
+        )
+      })
+      window.requestAnimationFrame(() => {
+        console.log('requestAnimationFrame')
+      })
+
+    }
+  </script>
+</head>
+
+<body>
+  <button onclick="handle()">调用事件</button>
+</body>
+
+</html>
