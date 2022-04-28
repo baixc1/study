@@ -4,13 +4,6 @@
  * 条件：该栈针弹出无影响（直接return 一个函数的调用，无闭包）
  * 核心：只保留内层函数的调用记录
  */
-let value = {
-  a: 0,
-
-  b: 1,
-
-  a: 1,
-};
 // 求和函数，空间复杂度 O(n)
 function factorial(n) {
   if (n === 1) return 1;
