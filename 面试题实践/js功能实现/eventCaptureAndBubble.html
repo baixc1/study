@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="s1">s1
+    <div id="s2">s2</div>
+  </div>
+  <div id="d1">d1</div>
+  <script>
+    s1.addEventListener("click", function (e) {
+      console.log("s1 冒泡事件");
+      e.stopPropagation()
+    }, false);
+    document.addEventListener('click', function (e) {
+      console.log('document', 'click-capturing', e.target)
+    }, true)
+    document.addEventListener('click', function () {
+      console.log('document', 'click-bubbling')
+    }, false)
+  </script>
+</body>
+
+</html>
