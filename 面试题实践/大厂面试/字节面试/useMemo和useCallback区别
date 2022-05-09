@@ -1,0 +1,73 @@
+### useCallback
+
+- 简单的函数或者组件渲染，不需要使用 useCallback
+- 使用 useCallback 的情况
+  - 使用 React.memo 的组件形参包含函数时（函数内存变化，导致无法缓存组件 - 该组件展示大量项目）
+  - callback 作为依赖时
+  - 频繁修改的内部状态（去抖动或节流）
+
+```javascript
+import React, { useState } from "react";
+
+export function FilterList({ names }) {
+  const [query, setQuery] = useState("");
+
+  let filteredNames = names;
+
+  if (query !== "") {
+    filteredNames = names.filter((name) => {
+      return name.toLowerCase().includes(query.toLowerCase());
+    });
+  }
+
+  const debouncedChangeHandler = useCallback(debounce(changeHandler, 300), []);
+
+  // 问题：每次都会创建新的实力 - debounce
+  // 优化：使用useMemo
+  // const debouncedChangeHandler = useMemo(
+  //   () => debounce(changeHandler, 300),
+  //   []
+  // );
+
+  // 清理延迟回调函数
+  // useEffect(() => {
+  //   return () => {
+  //     debouncedChangeHandler.cancel();
+  //   };
+  // }, []);
+
+  return (
+    <div>
+      <input
+        onChange={debouncedChangeHandler}
+        type="text"
+        placeholder="Type a query..."
+      />
+      {filteredNames.map((name) => (
+        <div key={name}>{name}</div>
+      ))}
+      <div>{filteredNames.length === 0 && query !== "" && "No matches..."}</div>
+    </div>
+  );
+}
+```
+
+### useMemo
+
+- 一般用于密集型计算
+
+```javascript
+const calcValue = React.useMemo(() => {
+  return Array(100000)
+    .fill("")
+    .map((v) => /*一些大量计算*/ v);
+}, [count]);
+```
+
+### useMemo 和 useCallback 定义
+
+```javascript
+type DependencyList = ReadonlyArray<unknown>;
+function useMemo<T>(factory: () => T, deps: DependencyList | undefined): T;
+function useCallback<T extends Function>(callback: T, deps: DependencyList): T;
+```
