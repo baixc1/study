@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .father {
+      overflow: hidden;
+    }
+
+    .son {
+      padding: 10px;
+      padding-left: -10px;
+      margin-left: -1px;
+      border: 1px solid #ccc;
+      width: 100px;
+      height: 100px;
+      background-color: antiquewhite;
+      word-break: break-all;
+    }
+
+    h2 {
+      text-align: center;
+      line-height: 60px;
+      height: 60px;
+      font-size: 20px;
+      background: #00bcd4;
+      color: #fff;
+    }
+
+    .g-container {
+      line-height: 2;
+      color: #fff;
+    }
+
+    .g-padmar {
+      position: relative;
+      overflow: hidden;
+
+    }
+
+    .g-left {
+      float: left;
+      width: 200px;
+      background: #4caf50;
+      padding-bottom: 9999px;
+      margin-bottom: -9999px;
+    }
+
+    .g-right {
+      width: 100%;
+      margin-left: 200px;
+      background: #99afe0;
+      padding-bottom: 9999px;
+      margin-bottom: -9999px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="father">
+    <div class="son">22222222222222222222222222222222222222222222222222</div>
+  </div>
+  <h2></h2>
+  <div class="g-padmar">
+    <div class="g-left">
+      左侧布局内容<br />
+    </div>
+    <div class="g-right">
+      右侧布局内容<br />
+      右侧布局内容<br />
+      右侧布局内容<br />
+      右侧布局内容<br />
+    </div>
+  </div>
+  <h2></h2>
+</body>
+
+</html>
