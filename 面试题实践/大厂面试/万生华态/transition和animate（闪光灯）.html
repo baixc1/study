@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes ani {
+      0% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+
+      30% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    .d1 {
+      margin: 100px 0 0 100px;
+      width: 100px;
+      height: 100px;
+      background-color: yellow;
+      border-radius: 50%;
+      animation-name: ani;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+    }
+
+    .d2 {
+      margin: 100px 0 0 100px;
+      width: 100px;
+      height: 100px;
+      background-color: yellow;
+      border-radius: 50%;
+      transition-property: transform, opacity;
+      transition-duration: 4s;
+      transition-delay: -1s;
+    }
+
+    .d2:hover {
+      transform: scale(2);
+      opacity: 0.3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d1"></div>
+  <div class="d2"></div>
+</body>
+
+</html>
