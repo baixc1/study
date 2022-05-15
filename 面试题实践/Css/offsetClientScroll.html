@@ -7,6 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    body {
+      height: 1500px;
+    }
+
     .parent {
       position: relative;
       border: 10px solid #ddd;
@@ -27,6 +31,15 @@
       height: 100px;
       overflow: scroll;
     }
+
+    .mouse {
+      margin: 30px;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
   </style>
 </head>
 
@@ -37,12 +50,14 @@
     </div>
   </div>
   <button class="b1">cal</button>
+  <div class="mouse">mouse</div>
   <script>
     /*
       1. ele.style.xx 只能获取行内样式和该表达式赋值后的样式
     */
     var $d1 = document.querySelector('.d1')
     var $b1 = document.querySelector('.b1')
+    var mouse = document.querySelector('.mouse')
     cal()
     function cal() {
       const { margin, left, border, padding, width, height } = getComputedStyle($d1)
@@ -63,6 +78,14 @@
       })
     }
     $b1.addEventListener('click', cal)
+    mouse.addEventListener('mousemove', function (e) {
+      const { clientX, clientY, pageX, pageY, screenX, screenY } = e
+      Object.entries({
+        clientX, clientY, pageX, pageY, screenX, screenY
+      }).forEach(([key, val]) => {
+        console.log(key, val)
+      })
+    })
   </script>
 </body>
 

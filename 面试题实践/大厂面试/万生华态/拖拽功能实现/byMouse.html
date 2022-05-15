@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #ball {
+      position: absolute;
+    }
+
+    body {
+      border: 20px solid #ddd;
+    }
+  </style>
+</head>
+
+<body>
+  <img id="ball" src="https://js.cx/clipart/ball.svg" alt="">
+  <script>
+    var ball = document.querySelector("#ball")
+    ball.onmousedown = function (event) {
+      let initPageX = event.pageX;
+      let initPageY = event.pageY
+      let left = parseInt(getComputedStyle(ball).left)
+      let top = parseInt(getComputedStyle(ball).top)
+      // 移动现在位于坐标 (pageX, pageY) 上的球        
+      function moveAt(pageX, pageY) {
+        ball.style.left = left + pageX - initPageX + 'px';
+        ball.style.top = top + pageY - initPageY + 'px';
+      }
+      function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+      }
+      // 在 mousemove 事件上移动球     
+      document.addEventListener('mousemove', onMouseMove);
+      // 放下球，并移除不需要的处理程序      
+      ball.onmouseup = function () {
+        document.removeEventListener('mousemove', onMouseMove);
+        ball.onmouseup = null;
+      };
+    };
+    ball.ondragstart = function () { return false; }
+  </script>
+</body>
+
+</html>

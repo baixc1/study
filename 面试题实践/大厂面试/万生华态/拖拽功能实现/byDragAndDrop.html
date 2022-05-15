@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font: 16px Arial, Helvetica, sans-serif;
+    }
+
+    li {
+      width: 200px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border: 1px dashed #cccccc;
+      cursor: pointer;
+      user-select: none;
+      background-color: white;
+      list-style: none;
+    }
+
+    .more {
+      border-top: 1px dotted rgb(196, 196, 196);
+      font-size: 12px;
+      padding-top: 10px;
+    }
+
+    .more,
+    .more a {
+      color: rgb(96, 96, 96);
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li draggable="true" ondragend="dragEnd(event)" ondragover="dragOver(event)" ondragstart="dragStart(event)"> Apples
+    </li>
+    <li draggable="true" ondragend="dragEnd(event)" ondragover="dragOver(event)" ondragstart="dragStart(event)"> Oranges
+    </li>
+    <li draggable="true" ondragend="dragEnd(event)" ondragover="dragOver(event)" ondragstart="dragStart(event)"> Bananas
+    </li>
+    <li draggable="true" ondragend="dragEnd(event)" ondragover="dragOver(event)" ondragstart="dragStart(event)">
+      Strawberries
+    </li>
+
+
+  </ul>
+
+  <script>
+    var selected;
+    const li = document.createElement("li");
+    function dragOver(e) {
+      e.preventDefault(); // 促发drop事件
+      // 向前拖拽 向后拖拽  
+      // 拖动目标(drop)是不是在拖拽源(drag)的前面  
+      if (selected === e.target) return
+      if (isBefore(selected, e.target)) {
+        // selected插入到当前节点前面
+        e.target.parentNode.insertBefore(selected, e.target);
+      } else {
+        // selected插入到当前节点的下一节点前面
+        e.target.parentNode.insertBefore(selected, e.target.nextSibling);
+      }
+    }
+
+    function dragEnd(e) {
+      e.dataTransfer.clearData("text");
+      e.target.style.opacity = '1'
+      selected = null;
+    }
+
+    function dragStart(e) {
+      selected = e.target;
+      setTimeout(() => {
+        e.target.style.opacity = '0'
+      })
+      e.dataTransfer.setData("text", e.target.innerHTML);
+    }
+
+    function isBefore(el1, el2) {
+      if (el2.parentNode === el1.parentNode) {
+        while (el1) {
+          el1 = el1.previousSibling;
+          if (el1 === el2) return true;
+        }
+      }
+      return false;
+    } 
+  </script>
+
+</body>
+
+</html>
