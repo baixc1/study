@@ -91,3 +91,34 @@ function mkdirsSync(dirname) {
   }
 }
 ```
+
+### vue-cli 的搭建
+
+- figlet
+  - 在终端生成艺术字体
+- chalk
+  - 设置字体颜色和背景
+- download-git-repo
+  - 从 node 下载并提取 git 仓库(GitHub、 GitLab、 Bitbucket)
+- util.promisify
+  - node 内置，异步调用封装成 promise
+- ora
+  - 加载状态的效果
+- child_process.spawn
+  - 子进程运行命令（安装依赖，项目启动）
+  - 对接输入流
+
+```javascript
+// 对接输出流
+const promisitySpawn = async (...args) => {
+  const { spawn } = require("child_process");
+  return new Promise((resolve) => {
+    const proc = spawn(...args);
+    proc.stdout.pipe(process.stdout);
+    proc.stderr.pipe(process.stderr);
+    proc.on("close", () => {
+      resolve();
+    });
+  });
+};
+```
