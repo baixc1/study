@@ -43,19 +43,23 @@ setImmediate(function immediate() {
 - 宏任务中，微任务的执行顺序
 
 ```javascript
-// timer和promise输出，和node版本有关
-setTimeout(() => {
-  console.log("timer1");
-  Promise.resolve().then(function () {
-    console.log("promise1");
-  });
-}, 10);
-setTimeout(() => {
-  console.log("timer2");
-  Promise.resolve().then(function () {
-    console.log("promise2");
-  });
-}, 10);
+// 微任务输出，和node版本有关
+// 和node事件阶段有关
+setTimeout(function timeout() {
+  console.log("timeout");
+  Promise.resolve(1).then((v) => console.log(21));
+  process.nextTick(() => console.log("n1"));
+});
+setImmediate(function immediate() {
+  console.log("immediate");
+  Promise.resolve(1).then((v) => console.log(22));
+  process.nextTick(() => console.log("n2"));
+});
+setImmediate(function immediate() {
+  console.log("immediate2");
+  Promise.resolve(1).then((v) => console.log(2));
+  process.nextTick(() => console.log("n3"));
+});
 ```
 
 - process.nextTick 比 promise 先执行
