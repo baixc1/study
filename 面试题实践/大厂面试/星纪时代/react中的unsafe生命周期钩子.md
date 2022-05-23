@@ -18,3 +18,8 @@
 - 使用 getSnapshotBeforeUpdate 替代 componentWillUpdate
   - 保留滚动位置
   - getSnapshotBeforeUpdate 的返回值作为第三个参数传给 componentDidUpdate
+
+### 核心
+
+- concurrent 模式会导致 will 相关的函数钩子多次调用
+- will 钩子函数可能存在副作用
