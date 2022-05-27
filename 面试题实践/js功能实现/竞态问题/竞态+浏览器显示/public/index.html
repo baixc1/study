@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input id="i1" />
+  <div id="d1"></div>
+  <script>
+    const el = document.getElementById('i1')
+    const d1 = document.getElementById('d1')
+
+    const myFetch = async (value) => {
+      return fetch(`http://localhost:8080/api/search?keywords=${encodeURIComponent(value)}`).then(res => res.json())
+    }
+
+    function autoCancel(fn) {
+      let sy = Symbol()
+      let running = null
+      return async function (...params) {
+        if (running) {
+          running()
+          running = null
+        }
+        const ret = await Promise.race([fn.apply(null, params), new Promise(resolve => {
+          running = resolve.bind(null, sy)
+        })])
+        return ret === sy ? null : ret
+      }
+    }
+
+    const showData = autoCancel(myFetch)
+    el.addEventListener('input', function (e) {
+      showData(e.target.value).then(ret => {
+        if (ret !== null) {
+          d1.innerHTML = ret.map(item => {
+            return `<p>${item.text}</p>`
+          }).join('')
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
