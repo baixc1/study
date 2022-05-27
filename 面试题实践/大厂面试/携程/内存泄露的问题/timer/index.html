@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * 共享闭包：unused函数使用 o 变量，someMethod 函数也会存储 o 变量
+     * 闭包作用域链：window.t -> someMethod -> [[Scopes]][0] -> o:{longStr, someMethod} -> ...
+     * replaceThing 函数里，对象字面量被赋值给 t, someMethod 因为闭包的特性，存储了
+     * replaceThing的变量，由于共享闭包，使 someMethod 存储了 o, o又存储了全局变量t,
+     * 无法释放。产生循环
+     * 内存查看
+     *    Memory面板两次快照，可以增量对比，可以查看增量Summary
+     *    Performance monitor 可以实时查看 js heap
+     *    在chrome中，大约半分钟执行一次GC
+     */
+    var t = null
+    var replaceThing = function () {
+      var o = t
+      var unused = function () {
+        // if (o) {
+        //   console.log('hi')
+        // }
+      }
+
+      t = {
+        longStr: new Array(100000).fill(1),
+        someMethod() {
+          console.log(1)
+        }
+      }
+    }
+    setInterval(replaceThing, 1000)
+  </script>
+</body>
+
+</html>
