@@ -1,0 +1,4 @@
+文件数量：2
+文件列表：
+  filename: a.js    size: 17/bytes    sourcepath: /Users/baixc/Desktop/study/webpack/pluginDemo/src/a.js
+  filename: index.js    size: 21/bytes    sourcepath: /Users/baixc/Desktop/study/webpack/pluginDemo/src/index.js
