@@ -5,6 +5,7 @@
   - 基于 http 模块实现请求响应模式
   - 接收请求后，依次遍历 routes 数组，作出响应
   - 使用 next 函数递归 routes 数组
+  - 调用 next 时，为递归嵌套调用中间件 [f1,f2,f3] -> f1(f2(f3()))
 
 ```javascript
 // myExpress.js
