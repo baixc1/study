@@ -1,6 +1,6 @@
 {
   "name": "stydy",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -47,7 +47,7 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  }
+  "patchversion": "npm version patch",
+  "minorversion": "npm version minor",
+  "majorversion": "npm version major"
 }
