@@ -46,5 +46,8 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
     ]
-  }
+  },
+        "gitHooks": {
+          "pre-commit": "lint-staged"
+        }
 }
