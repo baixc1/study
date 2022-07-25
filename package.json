@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "prettier": "prettier --write"
+    "prettier": "prettier --write",
+    "patchversion": "npm version patch",
+    "minorversion": "npm version minor",
+    "majorversion": "npm version major"
   },
   "keywords": [],
   "author": "",
@@ -46,8 +49,5 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
     ]
-  },
-  "patchversion": "npm version patch",
-  "minorversion": "npm version minor",
-  "majorversion": "npm version major"
+  }
 }
