@@ -13,3 +13,12 @@ format 格式
 quite 相当
 strange 奇怪
 propose 提议
+charm 魔
+deprecated 已弃用
+claim 声称
+encounter 遭遇
+primitive 原始
+semantic 语义
+multiplication 乘法
+abrupt 突然的
+defer 延迟
