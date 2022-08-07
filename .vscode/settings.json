@@ -4,5 +4,9 @@
   "editor.detectIndentation": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.markdownlint": true
-  }
+  },
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "literals",
+  "javascript.inlayHints.parameterTypes.enabled": true
 }
