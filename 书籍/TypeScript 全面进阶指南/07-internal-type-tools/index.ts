@@ -28,3 +28,49 @@ var c1: A["a"] = "1";
 
 // 交叉类型：原始类型
 type D = string & number;
+
+/**
+ * 索引类型：索引签名类型，索引类型查询，索引类型访问
+ */
+
+// 索引签名类型
+type Person = {
+  name: string;
+  age: number;
+  [key: string]: any;
+};
+
+const p: Person = {
+  name: "",
+  age: 10,
+};
+
+// 索引类型查询： keyof
+type P1 = keyof Person;
+const p1: P1 = "name";
+
+// 索引类型访问
+interface Foo {
+  p1: number;
+  p2: string;
+  p3: boolean;
+}
+type pTypeUnion = Foo[keyof Foo];
+
+/**
+ * 映射类型
+ */
+// T[k]：索引类型访问
+// K in：类型映射
+// keyof：索引类型查询
+// [K in keyof T]的[]：索引签名类型
+type Clone<T> = {
+  [K in keyof T]: T[K];
+};
+
+interface T1 {
+  name: string;
+  age: number;
+}
+
+type T2 = Clone<T1>;
