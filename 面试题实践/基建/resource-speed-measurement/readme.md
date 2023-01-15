@@ -1,0 +1,1 @@
+- 学习文档：[【前端监控】静态资源测速&错误上报](https://cloud.tencent.com/developer/article/1875507)
