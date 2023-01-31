@@ -1,14 +1,14 @@
-// var p = performance.getEntriesByType("resource");
-// console.log(p);
+var p = performance.getEntriesByType("resource");
+console.log(p);
 
-// // 初始化 PerformanceObserver 实例
-// var obs = new PerformanceObserver((list, observe) => {
-//   // 在新性能条目（资源等）记录在浏览器的性能时间轴中时收到通知
-//   console.log("list", list.getEntries());
-// });
+// 初始化 PerformanceObserver 实例
+var obs = new PerformanceObserver((list, observe) => {
+  // 在新性能条目（资源等）记录在浏览器的性能时间轴中时收到通知
+  console.log("list", list.getEntries());
+});
 
-// // 实例监听 resource 类型的事件（资源加载）
-// obs.observe({ entryTypes: ["resource"] });
+// 实例监听 resource 类型的事件（资源加载）
+obs.observe({ entryTypes: ["resource"] });
 
 // 使用定时器实现 PerformanceObserver（IE不支持该API）
 var curResLen = 0;
@@ -31,13 +31,13 @@ setTimeout(() => {
   document.body.appendChild(a);
 }, 1000);
 
-// 模拟动态加载图片
-// var num = 2
-// setInterval(()=>{
-//   var a = document.createElement("img");
-//   a.src = `${num++}.png`;
-//   document.querySelector('imgs').appendChild(a);
-// },30)
+// 模拟动态加载图片;
+var num = 2;
+setInterval(() => {
+  var a = document.createElement("img");
+  a.src = `${num++}.png`;
+  document.querySelector("imgs").appendChild(a);
+}, 30);
 
 // 清空资源
 performance.onresourcetimingbufferfull = () => {
