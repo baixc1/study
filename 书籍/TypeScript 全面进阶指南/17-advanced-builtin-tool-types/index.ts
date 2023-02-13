@@ -169,5 +169,18 @@ interface Visitor {
 type XORUser1 = XOR<VIP, XOR<CommonUser, Visitor>>;
 
 /**
- * 集合工具类型进阶
+ * 模式匹配工具类型进阶
  */
+type FunctionType = (...args: any) => any;
+
+type FuncFoo = (arg: number) => void;
+type FuncBar = (...args: string[]) => void;
+type FuncBaz = (arg1: string, arg2: boolean) => void;
+
+// (arg: infer P) => any，匹配 单个参数或相同类型参数
+// (...args: infer R) => any，匹配所有，但是无法获取  string[] 参数类型
+type LastParameter<T extends FunctionType> = T extends (...args: infer R) => any
+  ? R extends [...any, infer Q]
+    ? Q
+    : never
+  : never;
