@@ -1,0 +1,60 @@
+/* CSS Modules 用法教程 */
+/*  http://www.ruanyifeng.com/blog/2016/06/css_modules.html  */
+
+/* 
+  局部作用域 
+  1. 哈希类名
+  2. loader: "style-loader!css-loader?modules"
+*/
+
+/* 
+  全局作用域 
+*/
+:global(.title) {
+  color: green;
+}
+
+/* 
+  定制哈希类名
+  1. loader: "style-loader!css-loader?modules&localIdentName=[path][name]---[local]---[hash:base64:5]"
+*/
+
+/* 
+  Class 的组合 
+*/
+.className {
+  background-color: blue;
+}
+
+.title {
+  composes: className;
+  color: red;
+}
+
+/* 
+  输入其他模块
+*/
+
+.title {
+  composes: className from "./another.css";
+  color: red;
+}
+
+/* 
+  输入变量
+  1. var values = require('postcss-modules-values');
+  2. loader: "style-loader!css-loader?modules!postcss-loader"
+*/
+/* colors.css */
+@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+/* App.css */
+
+@value colors: "./colors.css";
+@value blue, red, green from colors;
+
+.title {
+  color: red;
+  background-color: blue;
+}
