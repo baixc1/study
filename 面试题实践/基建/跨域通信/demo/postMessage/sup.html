@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>PostMessage test</h1>
+
+
+  <iframe src="http://localhost:8081/sub.html" id="iframe" width="100%" height="200"></iframe>
+  <script>
+    window.addEventListener('message', function (event) {
+      console.log(event);
+    });
+    document.getElementById('iframe').addEventListener('load', function () {
+      console.log('iframe is loaded, sending message');
+      document.getElementById('iframe').contentWindow.postMessage('hoi', 'http://localhost:8081');
+    });
+  </script>
+</body>
+
+</html>

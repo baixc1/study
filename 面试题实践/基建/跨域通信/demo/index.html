@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="jsonp">jsonp</button>
+  <script>
+    // 简单请求
+    fetch('http://localhost:3000')
+      .then(response => response.text())
+      .then(data => console.log(data));
+
+    // 非简单请求
+    fetch('http://localhost:3000/put', { method: 'PUT' })
+      .then(response => response.text())
+      .then(data => console.log(data));
+
+    // JSONP
+    document.getElementById('jsonp').addEventListener('click', function () {
+      commonJsonp('getData')
+    })
+
+    //定义获取数据的回调方法
+    function getData(data) {
+      console.log(data);
+    }
+
+    function commonJsonp(cb) {
+      // 创建一个script标签，并且告诉后端回调函数名叫 getData
+      var body = document.getElementsByTagName('body')[0];
+      var script = document.createElement('script');
+      script.src = 'http://localhost:3001/getinfo.js?callback=' + cb
+      body.appendChild(script);
+
+      //script 加载完毕之后从页面中删除,否则每次点击生成许多script标签
+      script.onload = function () {
+        document.body.removeChild(script);
+      }
+    }
+
+  </script>
+  </script>
+</body>
+
+</html>
